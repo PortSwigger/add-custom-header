@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
+import java.util.Arrays;
 import javax.swing.JPanel;
 
 import javax.swing.SwingUtilities;
@@ -93,8 +94,7 @@ public class BurpExtender implements IBurpExtender, ISessionHandlingAction, ITab
                 if (_responseBody == null) return;
                 IResponseInfo macroResponse = helpers.analyzeResponse(_responseBody);
                 if (macroResponse == null ) return;
-                int bodyOffset = macroResponse.getBodyOffset();
-                String responseBody = helpers.bytesToString(_responseBody).substring(bodyOffset);
+                String responseBody = helpers.bytesToString(_responseBody);
                 Matcher m = p.matcher(responseBody);
                 if (m.find()) {
                     token = m.group(1);
@@ -131,10 +131,7 @@ public class BurpExtender implements IBurpExtender, ISessionHandlingAction, ITab
         headers.add(newHeader);
         callbacks.printOutput("Added header: '" + newHeader + "'");
 
-        String request = new String(currentRequest.getRequest());
-        String messageBody = request.substring(rqInfo.getBodyOffset());
-        // rebuild message
-        byte[] message = helpers.buildHttpMessage(headers, messageBody.getBytes());
+        byte[] message = helpers.buildHttpMessage(headers, Arrays.copyOfRange(currentRequest.getRequest(), rqInfo.getBodyOffset(), currentRequest.getRequest().length));
         currentRequest.setRequest(message);
     }
     // end ISessionHandlingAction methods
