@@ -2,8 +2,8 @@ Uuid: 807907f5380c4cb38748ef4fc1d8cdbc
 ExtensionType: 1
 Name: Add Custom Header
 RepoName: add-custom-header
-ScreenVersion: 1.0
-SerialVersion: 1
+ScreenVersion: 1.1
+SerialVersion: 2
 MinPlatformVersion: 0
 ProOnly: False
 Author: Lorenzo Grespan
